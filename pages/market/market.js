@@ -35,9 +35,9 @@ Page({
     //   mkList.marketBase[i].selected=true
     //   console.log('这里打印marketbase' + kList.marketBase[i])
     // }
-    wx.getStorageInfoSync('marketList')
-    console.log(wx.getStorageInfoSync('marketList'))
-    console.log(wx.getStorageSync('marketList').marketBase)
+    // wx.getStorageInfoSync('marketList')
+    // console.log(wx.getStorageInfoSync('marketList'))
+    // console.log(wx.getStorageSync('marketList').marketBase)
     
     if (!wx.getStorageSync('marketList').marketBase) {
       console.log("走到了if里")

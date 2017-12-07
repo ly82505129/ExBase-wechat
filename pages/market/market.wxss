@@ -1,4 +1,8 @@
 @import "../template/price-tpl.wxss";
+.infoBox{
+  background-color: white;
+}
+
 
 /* header 部分导航 */
 
@@ -59,6 +63,7 @@
   position: absolute;
   top: 64rpx;
   width: 100%;
+  background-color: white;
 }
 
 /*--判断显示还是隐藏 --*/
