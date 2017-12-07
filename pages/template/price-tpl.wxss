@@ -1,0 +1,51 @@
+.marketBox{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 25rpx;
+  /* border-top: 1px solid#ededed; */
+  border-bottom: 1px solid#ededed;
+  height: 120rpx;
+  justify-content: space-between;
+  font-size: 17px;
+}
+
+.marketTitle{
+  width: 20%;
+}
+
+.lastPrice{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+   margin-right: -170rpx; 
+}
+
+.financeLastPrice{
+  font-size: 14px;
+  color: #666;
+}
+
+.percentBox{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  background-color: #339900;
+  height: 60rpx;
+  margin-right:38rpx; 
+  width: 140rpx;
+  text-align: right;
+}
+
+.up{
+
+}
+.down{
+  background-color: #E00000;
+}
+
+.percent{
+  color: white;
+  font-size: 15px;
+  padding: 20rpx 10rpx;
+}

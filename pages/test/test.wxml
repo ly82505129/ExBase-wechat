@@ -1,0 +1,8 @@
+<!--pages/test/test.wxml-->
+<text>pages/test/test.wxml</text>
+<block wx:for="{{data.listShow}}">
+  <view style="text-align:center;">
+    <view style="background:#eee;" bindtap="showContent"  data-index="{{index}}" >{{item.title}}</view>
+    <view style="background:#ccc;" class="{{item.show ? 'showClass' : 'hideClass'}}">{{item.content}}</view>
+  </view>
+</block>

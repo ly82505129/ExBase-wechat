@@ -1,0 +1,7 @@
+/* pages/test/test.wxss */
+.showClass{
+  display:block;
+}
+.hideClass{
+  display:none;
+}

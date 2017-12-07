@@ -1,0 +1,37 @@
+<import src="../template/price-tpl.wxml" />
+<view class='infoBox'>
+
+  <view class="header">
+    <scroll-view class="mk_container" scroll-x="true">
+      <block wx:for="{{marketBase}}" wx:key="marketBase_id" wx:if="{{ item.selected }}">
+        <view class="mk_item  {{ marketBaseTab==item.mk_id ? 'active':'' }}" bindtap="changeMarketBase">
+          <!-- {{ currentTab==item.marketBase_id ? 'active':'' }} -->
+          <text data-id="{{ item.mk_id }}">{{ item.marketBase }}</text>
+        </view>
+      </block>
+    </scroll-view>
+    <image bindtap="manageTabs" class="mkBase-manager" src="/images/icon/icon-manage.png"></image>
+  </view>
+
+
+
+  <block wx:for='{{marketInfo}}' wx:for-item="baseCurrencyArray">
+    <view bindtap='showContent' class='baseCurrency' data-index="{{index}}">{{baseCurrencyArray.baseCurrencyArray}} </view>
+
+    <view  class="{{baseCurrencyArray.show ? 'showClass' : 'hideClass'}}">
+
+      <block wx:for="{{baseCurrencyArray.marketPrice}}" wx:for-item="marketPrice">
+        <template is="marketBox" data="{{...marketPrice}}" />
+      </block>
+    </view>
+  </block>
+  <!-- 
+  <block wx:for="{{marketInfo}}" wx:for-item="market">
+    <template is="marketBox" data="{{...market}}" />
+  </block> -->
+
+</view>
+
+
+<!-- <view style="background:#eee; " bindtap="showContent "  data-index="{{index}} " >{{item.title}}</view>
+    <view style="background:#ccc; " class="{{item.show ? 'showClass' : 'hideClass'}} ">{{item.content}}</view> -->

@@ -1,0 +1,33 @@
+{
+  "pages": [
+    "pages/market/market",
+    "pages/test/test",
+    "pages/balance/balance"
+  ],
+  "tabBar": {
+    "backgroundColor": "#fff",
+    "list": [{
+      "pagePath": "pages/market/market",
+      "text": "行情",
+      "iconPath": "images/icon/wx_app_tab1.png",
+      "selectedIconPath": "images/icon/wx_app_tab11.png"
+    },
+    {
+      "pagePath": "pages/balance/balance",
+      "text": "差价行情",
+      "iconPath": "images/icon/wx_app_tab2.png",
+      "selectedIconPath": "images/icon/wx_app_tab21.png"
+    }
+    ]
+  },
+    "window": {
+      "navigationBarBackgroundColor": "#ffffff",
+      "navigationBarTextStyle": "black",
+      "navigationBarTitleText": "小程序",
+      "backgroundColor": "#eeeeee",
+      "backgroundTextStyle": "light",
+      "enablePullDownRefresh": false
+    }
+
+
+}

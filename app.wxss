@@ -1,0 +1,6 @@
+.active text{
+  color:#0033FF;
+  border-bottom: 2rpx solid#0033FF;
+  padding-bottom: 9rpx;
+}
+

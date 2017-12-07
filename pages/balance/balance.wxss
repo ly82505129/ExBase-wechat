@@ -1,0 +1,2 @@
+/* pages/balance/balance.wxss */
+@import "../template/price-tpl.wxss";

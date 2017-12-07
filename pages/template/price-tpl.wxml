@@ -1,0 +1,14 @@
+<template name="marketBox">
+
+    <view class="marketBox">
+      <text class='marketTitle'>{{market}}</text>
+
+      <view class='lastPrice'>
+        <text class='marketLastPrice'>{{last_price}}</text>
+        <text class='financeLastPrice'>≈{{price_cny}}</text>
+      </view>
+      <view class="percentBox {{change_percent>0 ?'up':'down'}}">
+        <text class="percent">{{change_percent}}%</text>
+      </view>
+    </view>
+</template>
