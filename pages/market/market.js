@@ -5,6 +5,7 @@ var marketList = new DB();
 var market = [];
 var mkList = marketList.getAllMarkList();
 var timer = null;
+var baseListUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo";
 // var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
 Page({
 
@@ -27,27 +28,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
 
-  /**
- * 接口调用成功处理
- */
-  successFun: function (res, selfObj) {
-    var a = res.change_percent * 100;
-    res.change_percent = num.toDecimal(a) + "%";
-    res.market = mkList.market[i]
-    console.log(res);
-    market.push(res);
-    console.log("这里是打印successFUn函数内的market值" + market);
-    selfObj.setData({
-      marketInfo: market,
-    })
-  },
-  /**
-   * 接口调用失败处理
-   */
-  failFun: function (res, selfObj) {
-    console.log('failFun', res)
-  },
-
   onLoad: function (options) {
 
 
@@ -55,22 +35,51 @@ Page({
     //   mkList.marketBase[i].selected=true
     //   console.log('这里打印marketbase' + kList.marketBase[i])
     // }
-    mkList.marketBase.forEach(
-      function (i, b) {
+    wx.getStorageInfoSync('marketList')
+    console.log(wx.getStorageInfoSync('marketList'))
+    console.log(wx.getStorageSync('marketList').marketBase)
+    
+    if (!wx.getStorageSync('marketList').marketBase) {
+      console.log("走到了if里")
+      app.util.get(baseListUrl, {}).then(res => {
+        wx.setStorageSync('marketList', res.base);
+        mkList.marketBase.forEach(
+          function (i, b) {
+            var mlist = {};
+            // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
+            // i = i.substring(0,1).toUpperCase() + i.substring(1)
+            // console.log(i)
+            mlist.marketBase = i;
+            mlist.selected = true;
+            mlist.mk_id = b;
+            mkList.marketBase[b] = mlist;
+          }
+        )
+        this.setData({
+          marketBase: mkList.marketBase,
+        })
+      })
+    }
+    else{
+      mkList.marketBase.forEach(
+        function (i, b) {
+          var mlist = {};
+          // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
+          // i = i.substring(0,1).toUpperCase() + i.substring(1)
+          // console.log(i)
+          mlist.marketBase = i;
+          mlist.selected = true;
+          mlist.mk_id = b;
+          mkList.marketBase[b] = mlist;
+        }
+      )
+      this.setData({
+        marketBase: mkList.marketBase,
+      })
+      
+    }
 
-        var mlist = {};
-        // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
-        // i = i.substring(0,1).toUpperCase() + i.substring(1)
-        // console.log(i)
-        mlist.marketBase = i;
-        mlist.selected = true;
-        mlist.mk_id = b;
-        mkList.marketBase[b] = mlist;
-      }
-    )
-    this.setData({
-      marketBase: mkList.marketBase,
-    })
+
 
 
     // this.setData({
@@ -98,7 +107,7 @@ Page({
     var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
     this.getMarket(marketUrl);
     console.log(marketUrl)
-    
+
     // var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
     // var that=this;
     // timer=setInterval(function(){
@@ -270,9 +279,28 @@ Page({
       return false
     }
     this.setData({ marketBaseTab: chid })
-    console.log(this.data.marketBase[chid])
+    // console.log(this.data.marketBase[chid])
     var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?&base=" + this.data.marketBase[chid].marketBase;
     this.getMarket(marketUrl);
   }
-
+  /**
+  * 接口调用成功处理
+ 
+   successFun: function (res, selfObj) {
+     var a = res.change_percent * 100;
+     res.change_percent = num.toDecimal(a) + "%";
+     res.market = mkList.market[i]
+     console.log(res);
+     market.push(res);
+     console.log("这里是打印successFUn函数内的market值" + market);
+     selfObj.setData({
+       marketInfo: market,
+     })
+   },
+ 
+    * 接口调用失败处理
+    
+   failFun: function (res, selfObj) {
+     console.log('failFun', res)
+   }*/
 })

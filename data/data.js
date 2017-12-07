@@ -1,5 +1,4 @@
 var marketList={
-  marketBase:"poloniex",
   market: ["BTCUSDT", "ETHUSDT", "OMGETH"]
 }
 

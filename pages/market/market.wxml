@@ -13,18 +13,19 @@
     <image bindtap="manageTabs" class="mkBase-manager" src="/images/icon/icon-manage.png"></image>
   </view>
 
+  <view class='marketInfoList'>
 
+    <block wx:for='{{marketInfo}}' wx:for-item="baseCurrencyArray">
+      <view bindtap='showContent' class='baseCurrency' data-index="{{index}}">{{baseCurrencyArray.baseCurrencyArray}} </view>
 
-  <block wx:for='{{marketInfo}}' wx:for-item="baseCurrencyArray">
-    <view bindtap='showContent' class='baseCurrency' data-index="{{index}}">{{baseCurrencyArray.baseCurrencyArray}} </view>
+      <view class="{{baseCurrencyArray.show ? 'showClass' : 'hideClass'}}">
 
-    <view  class="{{baseCurrencyArray.show ? 'showClass' : 'hideClass'}}">
-
-      <block wx:for="{{baseCurrencyArray.marketPrice}}" wx:for-item="marketPrice">
-        <template is="marketBox" data="{{...marketPrice}}" />
-      </block>
-    </view>
-  </block>
+        <block wx:for="{{baseCurrencyArray.marketPrice}}" wx:for-item="marketPrice">
+          <template is="marketBox" data="{{...marketPrice}}" />
+        </block>
+      </view>
+    </block>
+  </view>
   <!-- 
   <block wx:for="{{marketInfo}}" wx:for-item="market">
     <template is="marketBox" data="{{...market}}" />

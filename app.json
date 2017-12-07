@@ -5,6 +5,7 @@
     "pages/balance/balance"
   ],
   "tabBar": {
+    "borderStyle": "white",
     "backgroundColor": "#fff",
     "list": [{
       "pagePath": "pages/market/market",

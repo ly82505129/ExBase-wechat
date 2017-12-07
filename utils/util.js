@@ -5,6 +5,12 @@ function requstGet(url,data){
   return requst(url,'GET',data)
 }
 
+function requstGetOneParm(url) {
+  return requst(url, 'GET', data)
+}
+
+
+
 function requstPost(url,data){
   return requst(url,'POST',data)
 }
@@ -33,9 +39,12 @@ function requst(url,method,data = {}){
 
 
 
+
+
 module.exports = {
   Promise,
   get:requstGet,
   post:requstPost,
-  requst
+  requst,
+  getOneParm: requstGetOneParm
 }

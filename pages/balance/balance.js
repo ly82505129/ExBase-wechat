@@ -27,7 +27,7 @@ Page({
     var url = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[x] + "&market=MCOETH";
     var data = {}
 
-    app.utils.get(url, data).then(res => {
+    app.util.get(url, data).then(res => {
 
       if (x < mkList.marketBase.length) {
         if (!res.error) {

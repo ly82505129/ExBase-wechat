@@ -1,60 +1,72 @@
 @import "../template/price-tpl.wxss";
 
-.baseCurrency{
-  background: #eee;
-}
-
-
 /* header 部分导航 */
-.header{
-    width: 100%;
-    background-color: #fff;
-    font-size: 30rpx;
-    display: flex;
-    align-items: center;
-    height: 64rpx;
-    position: relative;
-    border-bottom: 1px solid#ededed;
-    border-top:  1px solid#ededed;
-}
-.mk_container{
-    width: 18rem;
-    height: 64rpx;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-.mk_item{
-    padding: 14rpx;
-    display: inline-block;
-}
-.mkBase-manager{
-    padding-left:20rpx;
-    width: 1rem;
-    height: 1rem;
-    vertical-align: center;
+
+.header {
+  width: 100%;
+  background-color: #fff;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  height: 64rpx;
+  position: fixed;
+  top: 0px;
+  border-bottom: 1px solid#ededed;
+  border-top: 1px solid#ededed;
+  z-index: 999;
 }
 
-.baseCurrency{
-    padding-left: 10rpx;
-    padding-top: 10rpx;
-    padding-bottom: 10rpx;
-    height: 40rpx;
-    font-size: 14px;
-    border-bottom: 1px solid#D0D0D0;
+.mk_container {
+  width: 18rem;
+  height: 64rpx;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.baseCurrency:last-child{
+.mk_item {
+  padding: 14rpx;
+  display: inline-block;
+}
+
+.mkBase-manager {
+  padding-left: 20rpx;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: center;
+}
+
+/*折叠展开栏样式*/
+
+.baseCurrency {
+  background: #eee;
+  padding-left: 10rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  height: 40rpx;
+  font-size: 14px;
+  border-bottom: 1px solid#D0D0D0;
+}
+
+.baseCurrency:last-child {
   border-bottom: none;
+}
 
+
+.marketInfoList{
+  position: absolute;
+  top: 64rpx;
+  width: 100%;
 }
 
 /*--判断显示还是隐藏 --*/
-.showClass{
-  display:block;
+
+.showClass {
+  display: block;
 }
-.hideClass{
-  display:none;
+
+.hideClass {
+  display: none;
 }

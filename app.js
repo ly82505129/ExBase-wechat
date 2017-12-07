@@ -1,6 +1,6 @@
 import { DB } from "./db/DB.js";
 const request = require('./utils/request.js')
-const utils = require('./utils/util.js')
+const util = require('./utils/util.js')
 var marketList = new DB();
 var dataObj = require("data/data.js")
 
@@ -8,7 +8,7 @@ var dataObj = require("data/data.js")
 App({
   request: request,
   marketList: marketList,
-  utils,
+  util,
 
   /**
    * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
