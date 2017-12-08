@@ -4,6 +4,7 @@ var app = getApp();
 var marketList = new DB();
 var market = [];
 var mkList = marketList.getAllMarkList();
+var mkBaseList = marketList.getAllMarketBase();
 var timer = null;
 var baseListUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo";
 // var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
@@ -29,8 +30,7 @@ Page({
    */
 
   onLoad: function (options) {
-
-
+    console.log(mkBaseList)
     // for (var i = 0; i < mkList.marketBase.length;i++){
     //   mkList.marketBase[i].selected=true
     //   console.log('这里打印marketbase' + kList.marketBase[i])
@@ -38,12 +38,13 @@ Page({
     // wx.getStorageInfoSync('marketList')
     // console.log(wx.getStorageInfoSync('marketList'))
     // console.log(wx.getStorageSync('marketList').marketBase)
-    
-    if (!wx.getStorageSync('marketList').marketBase) {
+
+    var dataMarketBaseTemp = [];
+    if (!wx.getStorageSync('marketBase')) {
       console.log("走到了if里")
-      app.util.get(baseListUrl, {}).then(res => {
-        wx.setStorageSync('marketList', res.base);
-        mkList.marketBase.forEach(
+      app.util.getOneParm(baseListUrl).then(res => {
+        wx.setStorageSync('marketBase', res.base);
+        res.base.forEach(
           function (i, b) {
             var mlist = {};
             // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
@@ -52,33 +53,47 @@ Page({
             mlist.marketBase = i;
             mlist.selected = true;
             mlist.mk_id = b;
-            mkList.marketBase[b] = mlist;
+            dataMarketBaseTemp[b] = mlist;
           }
         )
         this.setData({
-          marketBase: mkList.marketBase,
+          marketBase: dataMarketBaseTemp,
         })
+        console.log(wx.getStorageSync('marketBase'))
+        console.log(marketList.getAllMarketBase()[0])
+        var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
+        this.getMarket(marketUrl);
+        console.log(marketUrl)
       })
     }
-    else{
-      mkList.marketBase.forEach(
-        function (i, b) {
-          var mlist = {};
-          // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
-          // i = i.substring(0,1).toUpperCase() + i.substring(1)
-          // console.log(i)
-          mlist.marketBase = i;
-          mlist.selected = true;
-          mlist.mk_id = b;
-          mkList.marketBase[b] = mlist;
-        }
-      )
-      this.setData({
-        marketBase: mkList.marketBase,
-      })
-      
-    }
+    else {
+      var mkBaseList = marketList.getAllMarketBase();
+      console.log('mkbaselist+' + mkBaseList)
 
+      for (var i = 0; i < mkBaseList.length; i++) {
+        var mlist = {};
+        // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
+        // i = i.substring(0,1).toUpperCase() + i.substring(1)
+        // console.log(i)
+        mlist.marketBase = mkBaseList[i];
+        mlist.selected = true;
+        mlist.mk_id = i;
+        dataMarketBaseTemp[i] = mlist;
+      }
+      console.log(dataMarketBaseTemp)
+      this.setData({
+        marketBase: dataMarketBaseTemp,
+      })
+      // var params = {
+      //   market: mkList.market[i],
+      //   base: mkList.marketBase
+      // }
+      console.log(wx.getStorageSync('marketBase'))
+      console.log(mkBaseList[0])
+      var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkBaseList[0];
+      this.getMarket(marketUrl);
+      console.log(marketUrl)
+    }
 
 
 
@@ -98,16 +113,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
-
-    // var params = {
-    //   market: mkList.market[i],
-    //   base: mkList.marketBase
-    // }
-    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
+    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
     this.getMarket(marketUrl);
-    console.log(marketUrl)
-
     // var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
     // var that=this;
     // timer=setInterval(function(){

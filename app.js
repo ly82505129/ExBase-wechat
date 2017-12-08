@@ -18,7 +18,7 @@ App({
     var storageData = wx.getStorageSync('marketList');
     if (!storageData) {
 
-      this.getMarketBase();
+      // this.getMarketBase();
       this.getFinance();
 
     }
@@ -27,21 +27,21 @@ App({
 
   },
 
-  getMarketBase: function () {
-    var url = this.globalData.exbaseBaseUrl + "/GetExbaseInfo";
-    wx.request({
-      url: url,
-      success: function (res) {
-        dataObj.marketList.marketBase = res.data.base;
-        wx.clearStorageSync();
-        wx.setStorageSync('marketList', dataObj.marketList);
-        // if (getCurrentPages().length != 0) {
-        //   getCurrentPages()[getCurrentPages().length - 1].onLoad()
-        // }
-        console.log("这里打印缓存" + wx.getStorageSync('marketList'))
-      }
-    })
-  },
+  // getMarketBase: function () {
+  //   var url = this.globalData.exbaseBaseUrl + "/GetExbaseInfo";
+  //   wx.request({
+  //     url: url,
+  //     success: function (res) {
+         
+  //       wx.clearStorageSync();
+  //       wx.setStorageSync('marketList', dataObj.marketList);
+  //       // if (getCurrentPages().length != 0) {
+  //       //   getCurrentPages()[getCurrentPages().length - 1].onLoad()
+  //       // }
+  //       console.log("这里打印缓存" + wx.getStorageSync('marketList'))
+  //     }
+  //   })
+  // },
 
   getFinance:function(){
     var url = "https://op.juhe.cn/onebox/exchange/query?key=ebb4522dcc134fabac4e8b29c77eac47";

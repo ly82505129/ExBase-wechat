@@ -6,7 +6,7 @@ function requstGet(url,data){
 }
 
 function requstGetOneParm(url) {
-  return requst(url, 'GET', data)
+  return requst(url, 'GET')
 }
 
 
@@ -31,6 +31,26 @@ function requst(url,method,data = {}){
       fail: function(msg) {
         console.log('reqest error',msg)
         
+        reject('fail')
+      }
+    })
+  })
+}
+
+function requst(url, method) {
+  return new Promise((resove, reject) => {
+    wx.request({
+      url: url,
+      data: {},
+      header: {},
+      method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      success: function (res) {
+
+        resove(res.data)
+      },
+      fail: function (msg) {
+        console.log('reqest error', msg)
+
         reject('fail')
       }
     })

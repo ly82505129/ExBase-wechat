@@ -1,6 +1,7 @@
 // pages/balance/balance.js
 var app = getApp();
 var mkList = app.marketList.getAllMarkList()
+var mkBaseList = app.marketList.getAllMarketBase();
 const num = require('../../utils/num.js');
 var diff = [];
 Page({
@@ -24,9 +25,31 @@ Page({
   ,
 
   loopPromise: function (x) {
-    var url = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[x] + "&market=MCOETH";
+    var url = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkBaseList[x] + "&market=MCOETH";
     var data = {}
 
+    var diffUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo?market=MCOETH";
+    app.util.getOneParm(diffUrl).then(res=>{
+      console.log(res)
+      var diff_price = parseFloat((res.max_last_price[0] - res.min_last_price[0]).toFixed(8))
+      console.log(parseFloat(diff_price.toFixed(8)))
+      var diff_percent = num.toDecimal((diff_price /  res.min_last_price[0]) * 100)
+      console.log(diff_percent)
+      
+      var temp = {
+        last_price: diff_price,
+        change_percent: diff_percent,
+        market: 'MCO/ETH'
+      }
+
+
+      this.setData({
+        'diffInfo[0]': temp
+      })
+
+    })
+
+    /*--循环获取每个交易所对应交易对的价格然后获取最大与最小值相减，并除以最小值获取差值的百分比
     app.util.get(url, data).then(res => {
 
       if (x < mkList.marketBase.length) {
@@ -55,6 +78,7 @@ Page({
         }
       }
     })
+    --*/
   },
 
 
