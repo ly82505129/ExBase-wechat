@@ -2,33 +2,39 @@
   "pages": [
     "pages/market/market",
     "pages/test/test",
-    "pages/balance/balance"
+    "pages/balance/balance",
+    "pages/collect/collect"
   ],
   "tabBar": {
     "borderStyle": "white",
     "backgroundColor": "#fff",
-    "list": [{
-      "pagePath": "pages/market/market",
-      "text": "行情",
-      "iconPath": "images/icon/wx_app_tab1.png",
-      "selectedIconPath": "images/icon/wx_app_tab11.png"
-    },
-    {
-      "pagePath": "pages/balance/balance",
-      "text": "差价行情",
-      "iconPath": "images/icon/wx_app_tab2.png",
-      "selectedIconPath": "images/icon/wx_app_tab21.png"
-    }
+    "list": [
+      {
+        "pagePath": "pages/collect/collect",
+        "text": "自选",
+        "iconPath": "images/icon/wx_app_tab11.png",
+        "selectedIconPath": "images/icon/wx_app_tab12.png"
+      },
+      {
+        "pagePath": "pages/market/market",
+        "text": "行情",
+        "iconPath": "images/icon/wx_app_tab21.png",
+        "selectedIconPath": "images/icon/wx_app_tab22.png"
+      },
+      {
+        "pagePath": "pages/balance/balance",
+        "text": "差价行情",
+        "iconPath": "images/icon/wx_app_tab31.png",
+        "selectedIconPath": "images/icon/wx_app_tab32.png"
+      }
     ]
   },
-    "window": {
-      "navigationBarBackgroundColor": "#ffffff",
-      "navigationBarTextStyle": "black",
-      "navigationBarTitleText": "小程序",
-      "backgroundColor": "#FFFFFF",
-      "backgroundTextStyle": "light",
-      "enablePullDownRefresh": false
-    }
-
-
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "行情信息",
+    "backgroundColor": "#FFFFFF",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  }
 }

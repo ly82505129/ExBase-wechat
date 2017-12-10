@@ -29,13 +29,13 @@ Page({
     var data = {}
 
     var diffUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo?market=MCOETH";
-    app.util.getOneParm(diffUrl).then(res=>{
+    app.util.getOneParm(diffUrl).then(res => {
       console.log(res)
       var diff_price = parseFloat((res.max_last_price[0] - res.min_last_price[0]).toFixed(8))
       console.log(parseFloat(diff_price.toFixed(8)))
-      var diff_percent = num.toDecimal((diff_price /  res.min_last_price[0]) * 100)
+      var diff_percent = num.toDecimal((diff_price / res.min_last_price[0]) * 100)
       console.log(diff_percent)
-      
+
       var temp = {
         last_price: diff_price,
         change_percent: diff_percent,
@@ -46,7 +46,14 @@ Page({
       this.setData({
         'diffInfo[0]': temp
       })
-
+      var price_url = app.globalData.exbaseBaseUrl + "GetTicker?base=" + res.max_last_price[1] + "&market=ETHUSDT";
+      return app.util.getOneParm(price_url)
+    }).then(res => {
+      console.log(res.last_price)
+      var price_cny = parseFloat((this.data.diffInfo[0].last_price * res.last_price * mkList.finance).toFixed(8))
+      this.setData({
+        'diffInfo[0].price_cny': price_cny
+      })
     })
 
     /*--循环获取每个交易所对应交易对的价格然后获取最大与最小值相减，并除以最小值获取差值的百分比

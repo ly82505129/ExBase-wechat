@@ -5,9 +5,12 @@ var marketList = new DB();
 var market = [];
 var mkList = marketList.getAllMarkList();
 var mkBaseList = marketList.getAllMarketBase();
+console.log(mkBaseList)
 var timer = null;
 var baseListUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo";
-// var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
+var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
+
+var collectStorageList=[];
 Page({
 
   /**
@@ -30,71 +33,8 @@ Page({
    */
 
   onLoad: function (options) {
-    console.log(mkBaseList)
-    // for (var i = 0; i < mkList.marketBase.length;i++){
-    //   mkList.marketBase[i].selected=true
-    //   console.log('这里打印marketbase' + kList.marketBase[i])
-    // }
-    // wx.getStorageInfoSync('marketList')
-    // console.log(wx.getStorageInfoSync('marketList'))
-    // console.log(wx.getStorageSync('marketList').marketBase)
 
-    var dataMarketBaseTemp = [];
-    if (!wx.getStorageSync('marketBase')) {
-      console.log("走到了if里")
-      app.util.getOneParm(baseListUrl).then(res => {
-        wx.setStorageSync('marketBase', res.base);
-        res.base.forEach(
-          function (i, b) {
-            var mlist = {};
-            // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
-            // i = i.substring(0,1).toUpperCase() + i.substring(1)
-            // console.log(i)
-            mlist.marketBase = i;
-            mlist.selected = true;
-            mlist.mk_id = b;
-            dataMarketBaseTemp[b] = mlist;
-          }
-        )
-        this.setData({
-          marketBase: dataMarketBaseTemp,
-        })
-        console.log(wx.getStorageSync('marketBase'))
-        console.log(marketList.getAllMarketBase()[0])
-        var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
-        this.getMarket(marketUrl);
-        console.log(marketUrl)
-      })
-    }
-    else {
-      var mkBaseList = marketList.getAllMarketBase();
-      console.log('mkbaselist+' + mkBaseList)
-
-      for (var i = 0; i < mkBaseList.length; i++) {
-        var mlist = {};
-        // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
-        // i = i.substring(0,1).toUpperCase() + i.substring(1)
-        // console.log(i)
-        mlist.marketBase = mkBaseList[i];
-        mlist.selected = true;
-        mlist.mk_id = i;
-        dataMarketBaseTemp[i] = mlist;
-      }
-      console.log(dataMarketBaseTemp)
-      this.setData({
-        marketBase: dataMarketBaseTemp,
-      })
-      // var params = {
-      //   market: mkList.market[i],
-      //   base: mkList.marketBase
-      // }
-      console.log(wx.getStorageSync('marketBase'))
-      console.log(mkBaseList[0])
-      var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkBaseList[0];
-      this.getMarket(marketUrl);
-      console.log(marketUrl)
-    }
-
+    this.getBaseListLoadMarket();
 
 
     // this.setData({
@@ -113,13 +53,85 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
-    this.getMarket(marketUrl);
+    var storageBase = wx.getStorageSync('storageBase')
+    var storageBaseCurrency = wx.getStorageSync('storageBaseCurrency')
+    var marketBaseUrlParm = '';
+    var marketBaseTab = this.data.marketBaseTab;
+    if (!storageBase) {
+
+    }
+
+    if (this.data.marketBase) {
+      marketBaseUrlParm = this.data.marketBase[marketBaseTab].marketBase.substring(0, 1).toLowerCase() + this.data.marketBase[marketBaseTab].marketBase.substring(1)
+
+    }
+    else {
+      marketBaseUrlParm = marketList.getAllMarketBase()[0]
+    }
+
+    this.getMarket(app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketBaseUrlParm);
+    console.log(app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketBaseUrlParm)
     // var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
     // var that=this;
     // timer=setInterval(function(){
     //   that.getMarket(marketUrl)
     // },2000)
+  },
+  //初始化时获取基础交易所列表并传递
+  getBaseListLoadMarket: function () {
+
+    // for (var i = 0; i < mkList.marketBase.length;i++){
+    //   mkList.marketBase[i].selected=true
+    //   console.log('这里打印marketbase' + kList.marketBase[i])
+    // }
+    // wx.getStorageInfoSync('marketList')
+    // console.log(wx.getStorageInfoSync('marketList'))
+    // console.log(wx.getStorageSync('marketList').marketBase)
+    var that = this
+    var dataMarketBaseTemp = [];
+    if (!wx.getStorageSync('marketBase')) {
+      app.util.getOneParm(baseListUrl).then(res => {
+        wx.setStorageSync('marketBase', res.base);
+        res.base.forEach(
+          function (i, b) {
+            var mlist = {};
+            // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
+            // i = i.substring(0,1).toUpperCase() + i.substring(1)
+            // console.log(i)
+            mlist.marketBase = i.substring(0, 1).toUpperCase() + i.substring(1);
+            mlist.selected = true;
+            mlist.mk_id = b;
+            dataMarketBaseTemp[b] = mlist;
+          }
+        )
+        this.setData({
+          marketBase: dataMarketBaseTemp,
+        })
+        this.getMarket(app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0]);
+      })
+    }
+    else {
+      var mkBaseList = marketList.getAllMarketBase();
+      for (var i = 0; i < mkBaseList.length; i++) {
+        var mlist = {};
+        // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
+        // i = i.substring(0,1).toUpperCase() + i.substring(1)
+        // console.log(i)
+        mlist.marketBase = mkBaseList[i].substring(0, 1).toUpperCase() + mkBaseList[i].substring(1);
+        mlist.selected = true;
+        mlist.mk_id = i;
+        dataMarketBaseTemp[i] = mlist;
+      }
+      this.setData({
+        marketBase: dataMarketBaseTemp,
+      })
+      // var params = {
+      //   market: mkList.market[i],
+      //   base: mkList.marketBase
+      // }
+      this.getMarket(app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0]);
+
+    }
   },
 
   /**
@@ -140,7 +152,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    // this.getMarket(marketUrl);
   },
 
   /**
@@ -166,6 +178,7 @@ Page({
       header: 'json',
       success: function (res) {
         that.loadMarketData(res.data);
+        console.log(res)
       },
       fail: function (error) {
         console.log(error);
@@ -175,7 +188,8 @@ Page({
 
   loadMarketData: function (res) {
     // console.log("这里打印markinfo"+marketInfo);
-    console.log('这里打印marketinfo的长度' + this.data.marketInfo.length)
+
+    console.log(res)
 
     // var key = "marketInfo[" + i + "]";
     /*1.修改res中的对象，将change_percent换成百分比并保留两位小叔，
@@ -287,8 +301,10 @@ Page({
     }
     this.setData({ marketBaseTab: chid })
     // console.log(this.data.marketBase[chid])
-    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?&base=" + this.data.marketBase[chid].marketBase;
+    var parm = (this.data.marketBase[chid].marketBase.substring(0, 1).toLowerCase() + this.data.marketBase[chid].marketBase.substring(1))
+    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?&base=" + parm;
     this.getMarket(marketUrl);
+    console.log(marketUrl)
   }
   /**
   * 接口调用成功处理
@@ -310,4 +326,99 @@ Page({
    failFun: function (res, selfObj) {
      console.log('failFun', res)
    }*/
+  ,
+
+  // 触摸开始事件
+  touchStart: function (e) {
+    touchDot = e.touches[0].pageX; // 获取触摸时的原点
+    // 使用js计时器记录时间  
+    interval = setInterval(function () {
+      time++;
+    }, 100);
+  },
+  // 触摸移动事件
+  touchMove: function (e) {
+    var touchMove = e.touches[0].pageX;
+    console.log("touchMove:" + touchMove + " touchDot:" + touchDot + " diff:" + (touchMove - touchDot));
+    // 向左滑动  
+    if (touchMove - touchDot <= -40 && time < 10) {
+      if (tmpFlag && nth < nthMax) { //每次移动中且滑动时不超过最大值 只执行一次
+        var tmp = this.data.menu.map(function (arr, index) {
+          tmpFlag = false;
+          if (arr.active) { // 当前的状态更改
+            nth = index;
+            ++nth;
+            arr.active = nth > nthMax ? true : false;
+          }
+          if (nth == index) { // 下一个的状态更改
+            arr.active = true;
+            name = arr.value;
+          }
+          return arr;
+        })
+        this.getNews(name); // 获取新闻列表
+        this.setData({ menu: tmp }); // 更新菜单
+      }
+    }
+    // 向右滑动
+    if (touchMove - touchDot >= 40 && time < 10) {
+      if (tmpFlag && nth > 0) {
+        nth = --nth < 0 ? 0 : nth;
+        var tmp = this.data.menu.map(function (arr, index) {
+          tmpFlag = false;
+          arr.active = false;
+          // 上一个的状态更改
+          if (nth == index) {
+            arr.active = true;
+            name = arr.value;
+          }
+          return arr;
+        })
+        this.getNews(name); // 获取新闻列表
+        this.setData({ menu: tmp }); // 更新菜单
+      }
+    }
+    // touchDot = touchMove; //每移动一次把上一次的点作为原点（好像没啥用）
+  },
+  // 触摸结束事件
+  touchEnd: function (e) {
+    clearInterval(interval); // 清除setInterval
+    time = 0;
+    tmpFlag = true; // 回复滑动事件
+  }
+  ,
+  collect: function (event) {
+    collectStorageList=wx.getStorageSync('collectList')
+    console.log(event.target.dataset.baseMarket)
+    var marketBaseTab = this.data.marketBaseTab;
+    console.log(this.getCurrentBase(marketBaseTab))
+    var collectStorageTemp = {
+      collectBase: this.getCurrentBase(marketBaseTab),
+      collectMarket: event.target.dataset.baseMarket
+    }
+    if (JSON.stringify(collectStorageList).indexOf(JSON.stringify(collectStorageTemp))===-1){
+      collectStorageList.push(collectStorageTemp)
+      
+    }else{
+
+      app.util.removeObjWithArr(collectStorageList, collectStorageTemp)
+      console.log(collectStorageList[1])
+      console.log(collectStorageTemp)
+      console.log(collectStorageList.indexOf(collectStorageTemp))
+    }
+    
+    wx.setStorageSync('collectList', collectStorageList)
+
+  },
+  getCurrentBase: function (num) {
+
+    var marketBase = this.data.marketBase
+    for (var i = 0; i < marketBase.length; i++) {
+      if (marketBase[i].mk_id === num) {
+        return marketBase[i].marketBase
+      }
+
+    }
+
+  }
 })

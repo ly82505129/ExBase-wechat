@@ -1,0 +1,9 @@
+<import src="../template/price-tpl.wxml" />
+
+<view class='infoBox'>
+
+  <block wx:for="{{diffInfo}}" wx:for-item="diff">
+    <template is="marketBox" data="{{...diff}}" />
+  </block>
+
+</view>

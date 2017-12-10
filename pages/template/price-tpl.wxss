@@ -49,3 +49,11 @@
   font-size: 15px;
   padding: 20rpx 10rpx;
 }
+
+.collect{
+  position:absolute;
+  height: 40rpx;
+  width: 40rpx;
+
+
+}
