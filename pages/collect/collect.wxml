@@ -2,8 +2,8 @@
 
 <view class='infoBox'>
 
-  <block wx:for="{{diffInfo}}" wx:for-item="diff">
-    <template is="marketBox" data="{{...diff}}" />
+  <block wx:for="{{collectList}}" wx:for-item="collectList">
+    <template is="marketBox" data="{{...collectList}}" />
   </block>
 
 </view>

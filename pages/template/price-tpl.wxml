@@ -1,15 +1,15 @@
 <template name="marketBox">
-<image src='/images/icon/collect.png' class='collect'></image>
-  <view class="marketBox" bindtap='collect' data-base-market='{{market}}'>
+<image src='/images/icon/collect.png' class="collect {{collectStatus ?'':'hide'}}"></image>
+  <view class="marketBox" bindtap='collect' data-base-market='{{market}}' data-index="{{index}}">
     
-    <text class='marketTitle' data-base-market='{{market}}'>{{market}}</text>
+    <text class='marketTitle' data-base-market='{{market}}' data-index="{{index}}">{{market}}</text>
 
     <view class='lastPrice' >
-      <text class='marketLastPrice' data-base-market='{{market}}'>{{last_price}}</text>
-      <text class='financeLastPrice' data-base-market='{{market}}'>≈{{price_cny}}</text>
+      <text class='marketLastPrice' data-base-market='{{market}}' data-index="{{index}}">{{last_price}}</text>
+      <text class='financeLastPrice' data-base-market='{{market}}' data-index="{{index}}">≈{{price_cny}}</text>
     </view>
     <view class="percentBox {{change_percent>0 ?'up':'down'}}">
-      <text class="percent" data-base-market='{{market}}'>{{change_percent}}%</text>
+      <text class="percent" data-base-market='{{market}}' data-index="{{index}}">{{change_percent}}%</text>
     </view>
   </view>
 </template>

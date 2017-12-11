@@ -57,6 +57,8 @@ Page({
     })
 
     /*--循环获取每个交易所对应交易对的价格然后获取最大与最小值相减，并除以最小值获取差值的百分比
+    var url = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkBaseList[x] + "&market=MCOETH";
+    var data = {}
     app.util.get(url, data).then(res => {
 
       if (x < mkList.marketBase.length) {

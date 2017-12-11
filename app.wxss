@@ -3,4 +3,7 @@
   border-bottom: 2rpx solid#0033FF;
   padding-bottom: 9rpx;
 }
+.hide{
+  display: none;
+}
 

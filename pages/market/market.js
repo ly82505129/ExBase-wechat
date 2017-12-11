@@ -10,7 +10,7 @@ var timer = null;
 var baseListUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo";
 var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
 
-var collectStorageList=[];
+var collectStorageList;
 Page({
 
   /**
@@ -207,6 +207,7 @@ Page({
       var ethUsdt = res["ETH_USDT"].last_price
       res[i].change_percent = num.toDecimal(res[i].change_percent);
       res[i].market = i.replace('_', '/');
+      res[i].collectStatus = false;
 
       base = i.split("_");
 
@@ -388,25 +389,38 @@ Page({
   }
   ,
   collect: function (event) {
-    collectStorageList=wx.getStorageSync('collectList')
-    console.log(event.target.dataset.baseMarket)
+    collectStorageList = wx.getStorageSync('collectList')
+    if (!collectStorageList) {
+      collectStorageList = [];
+    }
+    console.log(collectStorageList)
     var marketBaseTab = this.data.marketBaseTab;
     console.log(this.getCurrentBase(marketBaseTab))
     var collectStorageTemp = {
       collectBase: this.getCurrentBase(marketBaseTab),
       collectMarket: event.target.dataset.baseMarket
     }
-    if (JSON.stringify(collectStorageList).indexOf(JSON.stringify(collectStorageTemp))===-1){
+    if (JSON.stringify(collectStorageList).indexOf(JSON.stringify(collectStorageTemp)) === -1) {
       collectStorageList.push(collectStorageTemp)
-      
-    }else{
+
+    } else {
 
       app.util.removeObjWithArr(collectStorageList, collectStorageTemp)
-      console.log(collectStorageList[1])
-      console.log(collectStorageTemp)
-      console.log(collectStorageList.indexOf(collectStorageTemp))
+
     }
-    
+    // if (){
+    for (var i = 0; i < this.data.marketInfo.length; i++) {
+      for (var j = 0; j < this.data.marketInfo[i].marketPrice.length; j++) {
+        if (this.data.marketInfo[i].marketPrice[j].market === event.target.dataset.baseMarket) {
+          var key = "marketInfo[" + i + "].marketPrice[" + j + "].collectStatus"
+          this.setData({
+            [key]: true
+          })
+          console.log(key)
+        }
+      }
+    }
+    // }
     wx.setStorageSync('collectList', collectStorageList)
 
   },

@@ -45,7 +45,6 @@ function requst(url, method) {
       header: {},
       method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       success: function (res) {
-
         resove(res.data)
       },
       fail: function (msg) {
@@ -56,16 +55,16 @@ function requst(url, method) {
     })
   })
 }
-
+//将对象从数组中移除
 function removeObjWithArr(_arr, _obj) {
   var length = _arr.length;
   for (var i = 0; i < length; i++) {
-    if (_arr[i] === _obj) {
-      if (i === 0) {
+    if (JSON.stringify(_arr[i]) === JSON.stringify(_obj)) {
+      if (i == 0) {
         _arr.shift(); //删除并返回数组的第一个元素
         return;
       }
-      else if (i === length - 1) {
+      else if (i == length - 1) {
         _arr.pop();  //删除并返回数组的最后一个元素
         return;
       }
@@ -76,6 +75,13 @@ function removeObjWithArr(_arr, _obj) {
     }
   }
 }
+
+// function loopPromise(parm){
+//   var url
+//   this.requstGetOneParm(url).then(res=>{
+//     this.loopPromise()
+//   })
+// }
 
 
 
