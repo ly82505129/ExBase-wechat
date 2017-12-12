@@ -5,7 +5,6 @@ var marketList = new DB();
 var market = [];
 var mkList = marketList.getAllMarkList();
 var mkBaseList = marketList.getAllMarketBase();
-console.log(mkBaseList)
 var timer = null;
 var baseListUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo";
 var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketList.getAllMarketBase()[0];
@@ -33,7 +32,6 @@ Page({
    */
 
   onLoad: function (options) {
-
     this.getBaseListLoadMarket();
 
 
@@ -70,7 +68,6 @@ Page({
     }
 
     this.getMarket(app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketBaseUrlParm);
-    console.log(app.globalData.exbaseBaseUrl + "GetTicker?base=" + marketBaseUrlParm)
     // var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkList.marketBase[0].marketBase;
     // var that=this;
     // timer=setInterval(function(){
@@ -97,7 +94,7 @@ Page({
             var mlist = {};
             // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
             // i = i.substring(0,1).toUpperCase() + i.substring(1)
-            // console.log(i)
+
             mlist.marketBase = i.substring(0, 1).toUpperCase() + i.substring(1);
             mlist.selected = true;
             mlist.mk_id = b;
@@ -116,7 +113,6 @@ Page({
         var mlist = {};
         // i.marketBase = i.marketBase.substring(0,1).toUpperCase() + i.marketBase.substring(1)
         // i = i.substring(0,1).toUpperCase() + i.substring(1)
-        // console.log(i)
         mlist.marketBase = mkBaseList[i].substring(0, 1).toUpperCase() + mkBaseList[i].substring(1);
         mlist.selected = true;
         mlist.mk_id = i;
@@ -178,7 +174,6 @@ Page({
       header: 'json',
       success: function (res) {
         that.loadMarketData(res.data);
-        console.log(res)
       },
       fail: function (error) {
         console.log(error);
@@ -187,37 +182,43 @@ Page({
   },
 
   loadMarketData: function (res) {
-    // console.log("这里打印markinfo"+marketInfo);
-
-    console.log(res)
-
     // var key = "marketInfo[" + i + "]";
     /*1.修改res中的对象，将change_percent换成百分比并保留两位小叔，
       2.往res中增加对象，将market交易对放入到res中
     */
     // var  market=[res];
-    // console.log(market.length)
     var base;
     var baseCurrencyArray = []
     var temp = []
-
+    var collectList = wx.getStorageSync('collectList')
     for (var i in res) {
-
       var btcUsdt = res["BTC_USDT"].last_price
       var ethUsdt = res["ETH_USDT"].last_price
       res[i].change_percent = num.toDecimal(res[i].change_percent);
       res[i].market = i.replace('_', '/');
-      res[i].collectStatus = false;
+
+      var baseName = this.getCurrentBase(this.data.marketBaseTab)
+      for (var j = 0; j < collectList.length; j++) {
+        var collectMarketName = collectList[j].collectMarket
+        var resMarketName = res[i].market
+
+        var collectBaseName = collectList[j].collectBase
+        if ((baseName === collectBaseName) && (collectMarketName === resMarketName)) {
+            res[i].collectStatus = true;
+            break;
+        }
+        else {
+          res[i].collectStatus = false;
+        }
+      }
 
       base = i.split("_");
-
       //判断基础货币对是否与baseCurrencyArray重复，若不重复则将基础货币追加进数组
       if (baseCurrencyArray.indexOf(base[1]) == -1) {
         baseCurrencyArray.push(base[1])
       }
 
       //将人民币价格增加至res数组中
-
       if (base[1] === "BTC") {
         res[i].price_cny = num.toDecimal(res[i].last_price * btcUsdt * mkList.finance)
       } else if (base[1] === "ETH") {
@@ -225,11 +226,7 @@ Page({
       } else {
         res[i].price_cny = num.toDecimal(res[i].last_price * mkList.finance)
       }
-      // console.log(res[i])
-
-
     }
-
     for (var i = 0; i < baseCurrencyArray.length; i++) {
       var marketPrice = []
       var show
@@ -268,7 +265,6 @@ Page({
       // temp: temp
 
     });
-    // console.log(this.data)
     // return res;
     // var length=market.length
     // this.market[length]=res;
@@ -301,11 +297,9 @@ Page({
       return false
     }
     this.setData({ marketBaseTab: chid })
-    // console.log(this.data.marketBase[chid])
     var parm = (this.data.marketBase[chid].marketBase.substring(0, 1).toLowerCase() + this.data.marketBase[chid].marketBase.substring(1))
     var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?&base=" + parm;
     this.getMarket(marketUrl);
-    console.log(marketUrl)
   }
   /**
   * 接口调用成功处理
@@ -393,9 +387,9 @@ Page({
     if (!collectStorageList) {
       collectStorageList = [];
     }
-    console.log(collectStorageList)
+    // console.log(collectStorageList)
     var marketBaseTab = this.data.marketBaseTab;
-    console.log(this.getCurrentBase(marketBaseTab))
+    // console.log(this.getCurrentBase(marketBaseTab))
     var collectStorageTemp = {
       collectBase: this.getCurrentBase(marketBaseTab),
       collectMarket: event.target.dataset.baseMarket
@@ -416,7 +410,6 @@ Page({
           this.setData({
             [key]: true
           })
-          console.log(key)
         }
       }
     }
