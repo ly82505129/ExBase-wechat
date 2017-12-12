@@ -37,7 +37,6 @@ Page({
   },
 
   loopPromise: function (times, array) {
-    console.log(array)
     if (times < array.length){
       var collectBase = array[times].collectBase.substring(0, 1).toLowerCase() + array[times].collectBase.substring(1)
       var collectMarket = array[times].collectMarket.replace('/', '');
@@ -55,7 +54,6 @@ Page({
       
       res.market = array[times].collectMarket
       var key = "collectList[" + times + "]";
-      console.log(res)
       times++
       this.setData({
         [key]: res
@@ -120,5 +118,21 @@ Page({
     this.setData({
       inputVal: e.detail.value
     });
+  },
+  commitSearch:function(e){
+    var inputVal=e.detail.value
+;
+  },
+  commitSearch:function(e){
+    var inputVal=e.detail.value
+    var url = app.globalData.exbaseBaseUrl + "ExbaseQuery?q=" + inputVal;
+    app.util.getOneParm(url).then(res=>{
+      console.log(res)
+      for(var i in res){
+        console.log(i)
+        res.i
+      }
+      
+    })
   }
 })
