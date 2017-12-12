@@ -298,7 +298,7 @@ Page({
     }
     this.setData({ marketBaseTab: chid })
     var parm = (this.data.marketBase[chid].marketBase.substring(0, 1).toLowerCase() + this.data.marketBase[chid].marketBase.substring(1))
-    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?&base=" + parm;
+    var marketUrl = app.globalData.exbaseBaseUrl + "GetTicker?base=" + parm;
     this.getMarket(marketUrl);
   }
   /**
