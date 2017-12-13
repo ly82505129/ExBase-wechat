@@ -126,12 +126,23 @@ Page({
   commitSearch:function(e){
     var inputVal=e.detail.value
     var url = app.globalData.exbaseBaseUrl + "ExbaseQuery?q=" + inputVal;
+    var temp=[];
     app.util.getOneParm(url).then(res=>{
       console.log(res)
       for(var i in res){
-        console.log(i)
-        res.i
+        for(var j=0;j<res[i].length;j++){
+          console.log(i)
+          for (var k in res[i][j]){
+            console.log(res[i][j][k])
+            res[i][j][k].market=i
+            res[i][j][k].base = k
+            temp.push(res[i][j][k])
+          }
+        }
       }
+      this.setData({
+        searchReslut:temp
+      })
       
     })
   }

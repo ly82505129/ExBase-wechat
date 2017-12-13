@@ -80,7 +80,7 @@ App({
   },
 
   globalData: {
-    exbaseBaseUrl: "http://45.77.25.254/api_v1/"
+    exbaseBaseUrl: "http://exbase.cn/api_v1/"
   }
 })
 
