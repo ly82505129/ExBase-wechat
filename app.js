@@ -1,6 +1,7 @@
 import { DB } from "./db/DB.js";
 const request = require('./utils/request.js')
 const util = require('./utils/util.js')
+const Promise = require('./utils/Promise.js')
 var marketList = new DB();
 var dataObj = require("data/data.js")
 
@@ -45,16 +46,28 @@ App({
 
   getFinance:function(){
     var url = "https://op.juhe.cn/onebox/exchange/query?key=ebb4522dcc134fabac4e8b29c77eac47";
-    wx.request({
-      url: url,
-      success:function(res){
-        console.log(res.data.result.list[0][5]/100)
-        dataObj.marketList.finance = res.data.result.list[0][5] /100;
-        wx.setStorageSync('marketList', dataObj.marketList)
-        if (getCurrentPages().length != 0) {
-          getCurrentPages()[getCurrentPages().length - 1].onLoad()
+    // wx.request({
+    //   url: url,
+    //   success:function(res){
+    //     console.log(res.data.result.list[0][5]/100)
+    //     dataObj.marketList.finance = res.data.result.list[0][5] /100;
+    //     wx.setStorageSync('marketList', dataObj.marketList)
+    //     if (getCurrentPages().length != 0) {
+    //       getCurrentPages()[getCurrentPages().length - 1].onLoad()
+    //     }
+    //   }
+    // })
+    return new Promise(function (resolve, reject) {
+      wx.request({
+        url: url,
+        method: 'GET',
+        success: function (res) {
+          console.log(res.data.result.list[0][5] / 100)
+          dataObj.marketList.finance = res.data.result.list[0][5] / 100;
+          wx.setStorageSync('marketList', dataObj.marketList)
+          resolve();
         }
-      }
+      })
     })
   },
 

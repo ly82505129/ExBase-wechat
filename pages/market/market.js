@@ -32,9 +32,8 @@ Page({
    */
 
   onLoad: function (options) {
-    this.getBaseListLoadMarket();
-
-
+    app.getFinance().then(this.getBaseListLoadMarket());
+    
     // this.setData({
     //   market: marketList.getAllMarkList().market
     // })
