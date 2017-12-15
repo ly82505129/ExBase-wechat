@@ -119,6 +119,9 @@
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .weui-cell__bd_in-select-before, .weui-cell__hd_in-select-after {
@@ -150,4 +153,12 @@
 
 .weui-cell:first-child:before {
   display: none;
+}
+
+.result-text{
+  width: 90%;
+}
+.addIcon{
+  width: 60rpx;
+  height: 60rpx;
 }

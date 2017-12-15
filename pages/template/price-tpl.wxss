@@ -1,4 +1,4 @@
-.marketBox{
+.marketBox {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -10,55 +10,52 @@
   font-size: 17px;
 }
 
-.marketTitle{
+.marketTitle {
   width: 20%;
 }
 
-.lastPrice{
+.lastPrice {
   display: flex;
   flex-direction: column;
   text-align: right;
-   margin-right: -170rpx; 
+  margin-right: -170rpx;
 }
 
-.financeLastPrice{
+.financeLastPrice {
   font-size: 14px;
   color: #666;
 }
 
-.percentBox{
+.percentBox {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  background-color: #339900;
+  background-color: #390;
   height: 60rpx;
-  margin-right:38rpx; 
+  margin-right: 38rpx;
   width: 140rpx;
   text-align: right;
 }
 
-.up{
-
-}
-.down{
-  background-color: #E00000;
+.up {
 }
 
-.percent{
+.down {
+  background-color: #e00000;
+}
+
+.percent {
   color: white;
   font-size: 15px;
   padding: 20rpx 10rpx;
 }
 
-.collect{
-  position:absolute;
+.collect {
+  position: absolute;
   height: 40rpx;
   width: 40rpx;
-
-
 }
 
-.collect hide{
+.collect hide {
   display: none;
 }
-  

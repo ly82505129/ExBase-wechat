@@ -59,30 +59,26 @@ Page({
       // saveBMPArray
       var base = array[times].collectMarket.split("/");
       app.util.getOneParm(url).then(res => {
+
+        console.log(base)
+
         //   res.price_cny = num.toDecimal(res.last_price * btcUsdt * mkList.finance)
 
-        // this.getPrice(array[times].collectBase, base[1]).then(() => {
-        //   var priceData = this.data.price
-        //   for (var i = 0; i < priceData.length; i++) {
-        //     if (base[1] = priceData[i].market) {
-        //       currentPrice = priceData[i].price * res.last_price;
-        //       console.log(currentPrice + array[times].collectMarket)
-        //     }
-        //   }
-        // })
+        this.getPrice(array[times].collectBase, base[1]).then(() => {
+          var priceData = this.data.price
+          for (var i = 0; i < priceData.length; i++) {
+            if (base[1] = priceData[i].market) {
+              currentPrice = priceData[i].price * res.last_price;
+              console.log(currentPrice + array[times].collectMarket)
+            }
+          }
+        })
         //   res.price_cny = num.toDecimal(res.last_price * ethUsdt * mkList.finance)
         res.price_cny = currentPrice
         temp.push(res)
         res.market = array[times].collectMarket
-        console.log(temp)
+
         var key = "collectList[" + times + "]";
-        var getPriceUrl = tickerUrlBase + "GetTicker?base=" + array[times].collectBase + "&market=" + base[1] + "USDT"
-        console.log(getPriceUrl)
-        return app.util.getOneParm(getPriceUrl)
-      }).then(res=>{
-
-        temp[times].price_cny = num.toDecimal(res.last_price * temp[times].last_price * mkList.finance)
-
         times++
         this.setData({
           collectList: temp

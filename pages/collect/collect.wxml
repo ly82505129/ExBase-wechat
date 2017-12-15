@@ -18,12 +18,16 @@
       </view>
       <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
-    
-      <view class="weui-cells searchResult-Background" wx:if="{{inputVal.length > 0}}">
+
+    <view class="weui-cells searchResult-Background" wx:if="{{inputVal.length > 0}}">
       <view class='searchbar-result'>
-        <navigator url="" class="weui-cell" hover-class="weui-cell_active" wx:for="{{searchReslut}}" wx:for-item="searchReslut">
+        <navigator url="" class="weui-cell" hover-class="weui-cell_active" wx:for="{{searchReslut}}" wx:for-item="searchReslut" >
           <view class="weui-cell__bd">
-            <view>{{searchReslut.market}}</view>
+            <view class='result-text'>
+              <view>{{searchReslut.market}}</view>
+              <view>{{searchReslut.base}}</view>              
+            </view>
+            <image src='/images/icon/wx_app_add01.png' class='addIcon'></image>
           </view>
         </navigator>
       </view>
