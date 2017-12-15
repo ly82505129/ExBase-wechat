@@ -7,6 +7,7 @@ const num = require('../../utils/num.js');
 const Promise = require('../../utils/Promise.js')
 var tickerUrlBase = app.globalData.exbaseBaseUrl;
 var saveBMPArray = []
+var tempArray = []
 var currentPrice
 
 Page({
@@ -60,29 +61,32 @@ Page({
       app.util.getOneParm(url).then(res => {
 
         console.log(base)
-        if (base[1] === "BTC") {
-          //   res.price_cny = num.toDecimal(res.last_price * btcUsdt * mkList.finance)
 
-            this.getPrice(array[times].collectBase, "BTC")
+        //   res.price_cny = num.toDecimal(res.last_price * btcUsdt * mkList.finance)
 
-        
-          // this.getPrice(array[times].collectBase, "BTC").then(res => {
-          //   console.log(currentPrice)
+        this.getPrice(array[times].collectBase, base[1]).then(() => {
+          var priceData = this.data.price
+          for (var i = 0; i < priceData.length; i++) {
+            if (base[1] = priceData[i].market) {
+              currentPrice = priceData[i].price * res.last_price;
+              console.log(currentPrice + array[times].collectMarket)
+            }
+          }
+        })
 
-          // })
 
-          app.util.getOneParm(tickerUrlBase + "GetTicker?base=" + array[times].collectBase + "&market=" + "BTCUSDT").then(function () {
-            console.log("currentPrice1")
-          })
+        // this.getPrice(array[times].collectBase, "BTC").then(res => {
+        //   console.log(currentPrice)
 
-        } else if (base[1] === "ETH") {
-          //   res.price_cny = num.toDecimal(res.last_price * ethUsdt * mkList.finance)
-          this.getPrice(array[times].collectBase, "ETH")
-        } else {
-          //   res.price_cny = num.toDecimal(res.last_price * mkList.finance)
-        }
+        // })
+
+
+
+        //   res.price_cny = num.toDecimal(res.last_price * ethUsdt * mkList.finance)
+        res.price_cny = currentPrice
         temp.push(res)
         res.market = array[times].collectMarket
+
         var key = "collectList[" + times + "]";
         times++
         this.setData({
@@ -130,7 +134,7 @@ Page({
   },
   getPrice: function (base, market) {
     var that = this
-    var compare=[]
+    var compare
     return new Promise(function (resolve, reject) {
       wx.request({
         url: tickerUrlBase + "GetTicker?base=" + base + "&market=" + market + "USDT",
@@ -142,21 +146,35 @@ Page({
             market: market,
             price: currentPrice,
           }
-          
-          for (var i = 0; i < saveBMPArray;i++){
-            compare.push(saveBMPArray[i].base + saveBMPArray[i].base)
+
+          compare = (market + base)
+          if (saveBMPArray.length === 0) {
+            saveBMPArray.push(saveBMPObj)
+            console.log("saveBMPArray1:" + saveBMPArray)
+          } else {
+            var saveBMPCompare = []
+            for (var i = 0; i < saveBMPArray.length; i++) {
+              saveBMPCompare[i] = saveBMPArray[i].market + saveBMPArray[i].base
+            }
+            if (saveBMPCompare.indexOf(compare) === -1) {
+              saveBMPArray.push(saveBMPObj)
+
+            }
           }
-          console.log(compare)
-          
-          if (JSON.stringify(saveBMPArray).indexOf(compare)===-1){
-          saveBMPArray.push(saveBMPObj)
-          }
+          console.log(saveBMPArray)
+
+
+
           that.setData({
             price: saveBMPArray
           })
-          
-          console.log(saveBMPArray)
+
           resolve();
+        },
+        fail: function (msg) {
+          console.log('reqest error', msg)
+
+          reject('fail')
         }
       })
     })
