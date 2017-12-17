@@ -26,11 +26,20 @@ Page({
 
   loopPromise: function (x) {
     var url = app.globalData.exbaseBaseUrl + "GetTicker?base=" + mkBaseList[x] + "&market=MCOETH";
-    var data = {}
+    var data = []
 
     var diffUrl = app.globalData.exbaseBaseUrl + "GetExbaseInfo?market=MCOETH";
     app.util.getOneParm(diffUrl).then(res => {
       console.log(res)
+        for(var i in res){
+          var obj ={
+            [i]: res[i]
+          }
+          data.push(obj)
+        }
+      this.setData({
+        diffDetailInfo: data
+      })
       var diff_price = parseFloat((res.max_last_price[0] - res.min_last_price[0]).toFixed(8))
       console.log(parseFloat(diff_price.toFixed(8)))
       var diff_percent = num.toDecimal((diff_price / res.min_last_price[0]) * 100)

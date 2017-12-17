@@ -93,7 +93,7 @@ App({
   },
 
   globalData: {
-    exbaseBaseUrl: "http://exbase.cn/api_v1/"
+    exbaseBaseUrl: "http://exbase.io/api_v1/"
   }
 })
 

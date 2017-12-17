@@ -7,4 +7,11 @@
     <template is="marketBox" data="{{...diff}}" />
   </block>
 
+  <view class=''>
+    <view class='diffDetailInfo' wx:for="diffDetailInfo" wx:for-item="diffDetailInfo">
+      <text>{{diffDetailInfo.min_bid[0]}}</text>
+      <text></text>
+    </view>
+  </view>
+
 </view>
